@@ -1,0 +1,164 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Car Damage Assessment - Application of Deep Learning and
+	Computer Vision with Convolutional Neural Networks in Auto Insurance
+	Claims Processing</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Century Gothic" rel="stylesheet">
+<!-- Jasny Bootstrap -->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js"></script>
+
+<!-- Scrolling Script-->
+<script>
+	$(document)
+			.ready(
+					function() {
+						// Add smooth scrolling to all links in navbar + footer link
+						$(
+								".navbar a, footer a[href='#top'], .container-fluid a[href='#third']")
+								.on('click', function(event) {
+
+									// Make sure this.hash has a value before overriding default behavior
+									if (this.hash !== "") {
+
+										// Prevent default anchor click behavior
+										event.preventDefault();
+
+										// Store hash
+										var hash = this.hash;
+
+										// Using jQuery's animate() method to add smooth page scroll
+										// The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
+										$('html, body').animate({
+											scrollTop : $(hash).offset().top
+										}, 900, function() {
+
+											// Add hash (#) to URL when done scrolling (default click behavior)
+											window.location.hash = hash;
+										});
+									} // End if 
+								});
+					})
+</script>
+
+<!--Loading Script-->
+<script type="text/javascript">
+	// <![CDATA[
+	function loading() {
+		$("#loading").show();
+	}
+	// ]]>
+</script>
+
+<!--Tooltip Script-->
+<script>
+	$(document).ready(function() {
+		$('[data-toggle="tooltip"]').tooltip();
+	});
+</script>
+
+<link th:href="@{/css/cardemo.css}" rel="stylesheet" />
+</head>
+
+<!--Navigation Bar-->
+<body id="top">
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target="#myNavbar" th:if="${result eq null}">
+					<span class="icon-bar"></span> <span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="/">CAR DAMAGE
+					ASSESSMENT</a>
+			</div>
+			<div class="collapse navbar-collapse" id="myNavbar" th:if="${result eq null}">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#third">ASSESS DAMAGE</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<!-- First Container (Splash)-->
+	<div class="container-fluid bg-0 text-center" id="first" th:if="${result eq null}">
+		<h1>Get back on the road?</h1>
+		<br>
+		<br> <a href="#third" class="btn btn-default btn-lg"> <span
+			class="glyphicon glyphicon-phone"></span> Go to Damage Assessment
+		</a>
+	</div>
+	
+	<div class="container-fluid bg-2 text-center" id="response" th:if="${result != null}">	
+	
+	    <br>
+		<h3>Damage Assessment Complete</h3>
+		<br>
+	
+		<h4>Results:</h4>
+		<table>
+			<tr>
+				<td th:if="${result.carDetected eq 'true'}">Car</td>
+				<td><span class="glyphicon glyphicon-ok"></span></td>
+			</tr>
+			<tr>
+				<td th:if="${result.isDamaged eq 'true'}">Damage</td>
+				<td><span class="glyphicon glyphicon-ok"></span></td>
+			</tr>
+			<tr>
+				<td>Location</td>
+				<td><span th:utext="${result.localization}"></td>
+			</tr>
+			<tr>
+				<td>Severity</td>
+				<td><span th:utext="${result.severity}"></td>
+			</tr>
+		</table>	
+		</br>
+		
+		<button onclick="window.location.href='/'" class="btn btn-default">New Submit</button>
+		
+	</div>		
+
+	<div class="container-fluid bg-2 text-center" id="third" th:if="${result eq null}">
+	
+		<h3>Submit Damage Assessment</h3>
+	
+		<div class="fileinput fileinput-new" data-provides="fileinput" >
+			<div class="fileinput-preview thumbnail" data-trigger="fileinput"
+				id="window"></div>
+			<div>
+	
+				<form th:action="@{/claims/}" method="post" th:object="${multipartFile}"
+					enctype="multipart/form-data">
+					<div>
+	
+						<span class="btn btn-default btn-file"> 
+						<span class="fileinput-new">Select Image</span> 
+						<span class="fileinput-exists">Change</span> 
+						<input type="file" id="filename" name="file"></span>					
+	
+						<button type="submit" class="btn btn-default fileinput-exists"
+							id="analyze" name="image">Submit</button>
+	
+					</div>
+				</form>
+	
+			</div>
+			<div id="loading"></div>
+			<h4>Image tips:</h4>
+			<p>Please upload an image focused on one major area of damage
+				(e.g., front, side, or rear).</p>
+			<p>Try to contain most of the car in the picture unless it doesn't
+				capture the damage well. Ensure image is legible in order to avoid
+				inaccurate assesment</p>
+
+</body>
+
+</html>

@@ -8,20 +8,22 @@ import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.GpsDirectory;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+
 
 @Getter
-@RequiredArgsConstructor(staticName = "getInstance")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Claim {
 
-	@SuppressWarnings("unused")
 	@NonNull
 	private String claimId;
 
-	@SuppressWarnings("unused")
 	@NonNull
 	private String carImageBased64encoding;
 
@@ -29,22 +31,10 @@ public class Claim {
 	@NonNull
 	private transient Date claimDate;
 
-	@Setter
 	private String customerId;
 
-	@Setter
-	private String customerLastName;
-
-	@Setter
-	private String customerFirstName;
-
-	@Setter
-	private String customerEmail;
-
-	@Setter
 	private Double latitude;
 
-	@Setter
 	private Double longitude;
 
 	public void setLocation(Metadata metadata) {
