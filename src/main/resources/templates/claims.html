@@ -103,14 +103,22 @@
 	
 		<h4>Results:</h4>
 		<table>
-			<tr>
-				<td th:if="${result.carDetected eq 'true'}">Car</td>
+			<tr th:if="${result.carDetected eq 'true'}">
+				<td>Car</td>
+				<td><span class="glyphicon glyphicon-ok"></span></td>
+			</tr>Damaged
+			<tr th:if="${result.carDetected eq 'false'}">
+				<td>Car</td>
+				<td><span class="glyphicon glyphicon-remove"></span></td>
+			</tr>			
+			<tr th:if="${result.isDamaged eq 'true'}">
+				<td>Damaged</td>
 				<td><span class="glyphicon glyphicon-ok"></span></td>
 			</tr>
-			<tr>
-				<td th:if="${result.isDamaged eq 'true'}">Damage</td>
-				<td><span class="glyphicon glyphicon-ok"></span></td>
-			</tr>
+			<tr th:if="${result.isDamaged eq 'false'}">
+				<td>Damaged</td>
+				<td><span class="glyphicon glyphicon-remove"></span></td>
+			</tr>			
 			<tr>
 				<td>Location</td>
 				<td><span th:utext="${result.localization}"></td>
