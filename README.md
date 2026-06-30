@@ -1,5 +1,3 @@
-# car-insurance-claim-settlement
-
 # Car Insurance Claim Settlement Demo
 
 This repository brings together a complete AI-powered car insurance claim demo.
@@ -95,8 +93,3 @@ Damage localization API
 Damage severity API
   ↓
 Displayed result
-
-
-git clone https://github.com/bguedes/car-insurance-claim-settlement.git
-
-./mvnw spring-boot:run
