@@ -93,3 +93,37 @@ Damage localization API
 Damage severity API
   ↓
 Displayed result
+
+## How the Web App and CPD services interact
+
+- The Web application (Spring Controller) accepts an uploaded image, encodes it to base64 and builds a Claim JSON object which it POSTs to the CPD entry endpoint (property `cdp.rest.url`).  
+- The CPD entry service (carDamagePredictionML) receives the Claim JSON, runs the damage prediction, appends its result to the JSON and conditionally calls the localization service.  
+- The localization service appends its result and conditionally calls the severity service.  
+- Each service appends its predictions into the same JSON structure and returns the enriched JSON to the caller. The final JSON is returned to the Web app and rendered in the `/claims/` view.
+
+### Claim / Response JSON contract (recommended)
+- Claim (sent by Web app):
+  - id, image (base64), date, customerId, metadata (optional)
+- Response (returned by services; example fields):
+  - claimId
+  - detected: {isCar: boolean, confidence: float}
+  - damaged: {isDamaged: boolean, confidence: float}
+  - localization: {label, class, confidence}
+  - severity: {label, class, confidence}
+  - timestamps: {...}
+  - errors: [...]
+
+### Deployment and configuration
+- Deploy each ML project in CPD as an independent REST inference service. Use cpdctl or the CPD UI to create online deployments and obtain endpoint URLs and tokens [web:52].  
+- Configure service URLs in application.properties (or environment variables), e.g.:
+  - `cdp.rest.url=https://cpd.example.com/api/v1/entry-service`
+  - `localization.service.url=https://cpd.example.com/api/v1/localization`
+  - `severity.service.url=https://cpd.example.com/api/v1/severity`
+- Secure services with tokens and enable timeouts and retries for inter-service calls.
+
+### Best practices
+- Keep the JSON schema stable across services.
+- Append prediction fields rather than replacing them.
+- Propagate errors in a structured `errors[]` field.
+- Add timestamps/trace IDs to help debugging and latency measurement.
+
