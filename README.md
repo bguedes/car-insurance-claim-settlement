@@ -77,23 +77,6 @@ Each ML model can be deployed as an independent API service and consumed by the 
 - **Damage localization API**: ML endpoint for impact location prediction.
 - **Damage severity API**: ML endpoint for severity prediction.
 
-### Logical flow
-
-```text
-User
-  ↓
-Web Application
-  ↓
-Car detection API
-  ↓
-Damage detection API
-  ↓
-Damage localization API
-  ↓
-Damage severity API
-  ↓
-Displayed result
-
 ## How the Web App and CPD services interact
 
 - The Web application (Spring Controller) accepts an uploaded image, encodes it to base64 and builds a Claim JSON object which it POSTs to the CPD entry endpoint (property `cdp.rest.url`).  
@@ -127,3 +110,19 @@ Displayed result
 - Propagate errors in a structured `errors[]` field.
 - Add timestamps/trace IDs to help debugging and latency measurement.
 
+### Logical flow
+
+```text
+User
+  ↓
+Web Application
+  ↓
+Car detection API
+  ↓
+Damage detection API
+  ↓
+Damage localization API
+  ↓
+Damage severity API
+  ↓
+Displayed result
