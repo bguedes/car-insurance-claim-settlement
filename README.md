@@ -110,6 +110,15 @@ Each ML model can be deployed as an independent API service and consumed by the 
 - Propagate errors in a structured `errors[]` field.
 - Add timestamps/trace IDs to help debugging and latency measurement.
 
+## End-to-end workflow
+
+1. The user uploads an image in the Web application.
+2. The Web application sends the image to [carDamagePredictionML](https://github.com/bguedes/carDamagePredictionML).
+3. If damage is detected, the service forwards the request to [carDamageLocalizationPredictionML](https://github.com/bguedes/carDamageLocalizationPredictionML).
+4. The localization service forwards the request to [carDamageSeverityPredictionML](https://github.com/bguedes/carDamageSeverityPredictionML).
+5. Each service adds new fields to the JSON response.
+6. The final result is returned to the Web application and displayed to the user.
+
 ### Logical flow
 
 ```text
